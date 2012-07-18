@@ -1,6 +1,6 @@
 <?php
 
-require_once("Board.php");
+require_once("ArrayBoard.php");
 require_once("InvalidCellCoordinatesException.php");
 
 class ConwayTest extends PHPUnit_Framework_TestCase{
@@ -161,10 +161,10 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->assertEquals($state, $this->board->isAlive(1, 1));}
 
 	private function givenBoardWithSize($width, $height){
-		$this->board = Board::create($width, $height);}
+		$this->board = ArrayBoard::create($width, $height);}
 
 	private function given3x3BoardWithContents($cells){
-		$this->board = Board::create(3, 3);
+		$this->givenBoardWithSize(3, 3);
 		for($index = 0; $index < 9; $index++){
 			if ($cells[$index] === 1){
 				$this->board->bringToLife($index % 3, floor($index / 3));}}}

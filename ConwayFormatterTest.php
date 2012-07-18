@@ -19,7 +19,7 @@ class ConwayFormatterTest extends PHPUnit_Framework_TestCase{
 			$this->output);}
 
 	public function givenEmpty6x4Board(){
-		$this->board = Board::create(6, 4);}
+		$this->board = ArrayBoard::create(6, 4);}
 
 	public function givenFormatter(){
 		$this->formatter = new Formatter($this->board);}
