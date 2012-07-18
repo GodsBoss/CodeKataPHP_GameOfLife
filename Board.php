@@ -6,6 +6,7 @@ class Board{
 	private $width;
 	private $height;
 	private $cells;
+	private $nextCells;
 
 	public static function create($width, $height){
 		return new Board($width, $height, self::createCells($width, $height));}
@@ -47,13 +48,19 @@ class Board{
 		return $row*$this->width + $column;}
 
 	public function tick(){
-		$cells = self::createCells($this->width, $this->height);
+		$this->nextCells = self::createCells($this->width, $this->height);
+		$this->setNextLivingCells();
+		$this->cells = $this->nextCells;}
+
+	private function setNextLivingCells(){
 		for($column=0; $column<$this->width; $column++){
 			for($row=0; $row<$this->height; $row++){
-				$livingNeighbours = $this->livingNeighbours($column, $row);
-				if (($this->isAlive($column, $row) && $livingNeighbours === 2) || $livingNeighbours === 3){
-					$cells[$this->cellIndex($column, $row)] = TRUE;}}}
-		$this->cells = $cells;}
+				$this->setNextCellStateAt($column, $row);}}}
+
+	private function setNextCellStateAt($column, $row){
+		$livingNeighbours = $this->livingNeighbours($column, $row);
+		if (($this->isAlive($column, $row) && $livingNeighbours === 2) || $livingNeighbours === 3){
+			$this->nextCells[$this->cellIndex($column, $row)] = TRUE;}}
 
 	private static $offsets = [-1, 0, 1];
 
@@ -61,9 +68,18 @@ class Board{
 		$neighbours = 0;
 		foreach(self::$offsets as $columnOffset){
 			foreach(self::$offsets as $rowOffset){
-				if ($columnOffset !== 0 || $rowOffset !== 0){
-					$neighbourColumn = ($column+$columnOffset+$this->width) % $this->width;
-					$neighbourRow = ($row+$rowOffset+$this->height) % $this->height;
-					if ($this->isAlive($neighbourColumn, $neighbourRow)){
-						$neighbours++;}}}}
-		return $neighbours;}}
+				if ($this->isLivingNeighbour($column, $row, $columnOffset, $rowOffset)){
+					$neighbours++;}}}
+		return $neighbours;}
+
+	private function isLivingNeighbour($column, $row, $columnOffset, $rowOffset){
+		return !$this->isCellItself($columnOffset, $rowOffset) && $this->isAlive($this->column($column, $columnOffset), $this->row($row, $rowOffset));}
+
+	private function isCellItself($columnOffset, $rowOffset){
+		return $columnOffset === 0 && $rowOffset === 0;}
+
+	private function column($column, $offset){
+		return ($column+$offset+$this->width) % $this->width;}
+
+	private function row($row, $offset){
+		return ($row+$offset+$this->height) % $this->height;}}
