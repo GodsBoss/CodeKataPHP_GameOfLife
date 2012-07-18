@@ -44,4 +44,7 @@ class Board{
 			throw new InvalidCellCoordinatesException($column, $row);}}
 
 	private function cellIndex($column, $row){
-		return $row*$this->width + $column;}}
+		return $row*$this->width + $column;}
+
+	public function tick(){
+		$this->cells = self::createCells($this->width, $this->height);}}

@@ -24,6 +24,12 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->whenCellIsKilledAt(1, 4);
 		$this->thenCellIsDeadAt(1, 4);}
 
+	public function testCellDiesIfItHasNoLivingNeighbours(){
+		$this->givenBoardWithSize(4, 5);
+		$this->whenCellIsBroughtToLifeAt(2, 2);
+		$this->whenWorldTicks();
+		$this->thenCellIsDeadAt(2, 2);}
+
 	/**
 	* @dataProvider invalidCellCoordinates
 	*/
@@ -100,6 +106,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 
 	private function whenCellIsKilledAt($column, $row){
 		$this->board->kill($column, $row);}
+
+	private function whenWorldTicks(){
+		$this->board->tick();}
 
 	private $board;
 	private $exception;}
