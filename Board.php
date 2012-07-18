@@ -20,4 +20,6 @@ class Board{
 		return $this->height;}
 
 	public function isAlive($column, $row){
-		throw new InvalidCellCoordinatesException($column, $row);}}
+		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){
+			throw new InvalidCellCoordinatesException($column, $row);}
+		return FALSE;}}

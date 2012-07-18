@@ -9,6 +9,10 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->givenBoardWithSize(5, 3);
 		$this->thenBoardHasSize(5, 3);}
 
+	public function testInitiallyCellsAreDeadOnAFreshBoard(){
+		$this->givenBoardWithSize(4, 3);
+		$this->thenAllCellsAreDead();}
+
 	/**
 	* @dataProvider invalidCellCoordinates
 	*/
@@ -31,6 +35,11 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->assertInstanceOf(InvalidCellCoordinatesException, $this->exception);
 		$this->assertTrue($column === $this->exception->getColumn());
 		$this->assertTrue($row === $this->exception->getRow());}
+
+	private function thenAllCellsAreDead(){
+		for($column = 0; $column < $this->board->getWidth(); $column++){
+			for($row = 0; $row < $this->board->getHeight(); $row++){
+				$this->assertTrue($this->board->isAlive($column, $row) === FALSE);}}}
 
 	private function givenBoardWithSize($width, $height){
 		$this->board = Board::create($width, $height);}
