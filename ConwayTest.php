@@ -9,25 +9,20 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->givenBoardWithSize(5, 3);
 		$this->thenBoardHasSize(5, 3);}
 
-	public function testTryingToAccessCellTooFarToTheLeft(){
-		$this->givenBoardWithSize(3, 2);
-		$this->whenTryingToCheckIfCellIsAliveAt(-2, 1);
-		$this->thenSignalInvalidCellCoordinates(-2, 1);}
+	/**
+	* @dataProvider invalidCellCoordinates
+	*/
+	public function testTryingToAccessCellOutsideTheBoard($width, $height, $column, $row){
+		$this->givenBoardWithSize($width, $height);
+		$this->whenTryingToCheckIfCellIsAliveAt($column, $row);
+		$this->thenSignalInvalidCellCoordinates($column, $row);}
 
-	public function testTryingToAccessCellTooFarToTheRight(){
-		$this->givenBoardWithSize(2, 2);
-		$this->whenTryingToCheckIfCellIsAliveAt(5, 0);
-		$this->thenSignalInvalidCellCoordinates(5, 0);}
-
-	public function testTryingToAccessCellAboveTheBoard(){
-		$this->givenBoardWithSize(2, 3);
-		$this->whenTryingToCheckIfCellIsAliveAt(1, -3);
-		$this->thenSignalInvalidCellCoordinates(1, -3);}
-
-	public function testTryingToAccessCellBelowTheBoard(){
-		$this->givenBoardWithSize(3, 3);
-		$this->whenTryingToCheckIfCellIsAliveAt(1, 6);
-		$this->thenSignalInvalidCellCoordinates(1, 6);}
+	public function invalidCellCoordinates(){
+		return [
+			[3, 3, -2, 1],
+			[3, 3, 5, 0],
+			[3, 3, 1, -3],
+			[3, 3, 2, 6]];}
 
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
