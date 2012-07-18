@@ -28,14 +28,16 @@ class Board{
 		return $this->height;}
 
 	public function isAlive($column, $row){
-		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){
-			throw new InvalidCellCoordinatesException($column, $row);}
+		$this->throwIfOutsideTheBoard($column, $row);
 		return $this->cells[$this->cellIndex($column, $row)];}
 
 	public function bringToLife($column, $row){
-		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){
-			throw new InvalidCellCoordinatesException($column, $row);}
+		$this->throwIfOutsideTheBoard($column, $row);
 		$this->cells[$this->cellIndex($column, $row)] = TRUE;}
+
+	private function throwIfOutsideTheBoard($column, $row){
+		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){
+			throw new InvalidCellCoordinatesException($column, $row);}}
 
 	private function cellIndex($column, $row){
 		return $row*$this->width + $column;}}
