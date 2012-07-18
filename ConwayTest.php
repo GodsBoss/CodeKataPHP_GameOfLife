@@ -13,6 +13,11 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->givenBoardWithSize(4, 3);
 		$this->thenAllCellsAreDead();}
 
+	public function testBringingCellToLife(){
+		$this->givenBoardWithSize(5, 5);
+		$this->whenCellIsBroughtToLifeAt(2, 3);
+		$this->thenCellIsAliveAt(2, 3);}
+
 	/**
 	* @dataProvider invalidCellCoordinates
 	*/
@@ -41,6 +46,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 			for($row = 0; $row < $this->board->getHeight(); $row++){
 				$this->assertTrue($this->board->isAlive($column, $row) === FALSE);}}}
 
+	private function thenCellIsAliveAt($column, $row){
+		$this->assertTrue($this->board->isAlive($column, $row));}
+
 	private function givenBoardWithSize($width, $height){
 		$this->board = Board::create($width, $height);}
 
@@ -49,6 +57,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 			$this->board->isAlive($column, $row);}
 		catch(Exception $exception){
 			$this->exception = $exception;}}
+
+	private function whenCellIsBroughtToLifeAt($column, $row){
+		$this->board->bringToLife($column, $row);}
 
 	private $board;
 	private $exception;}

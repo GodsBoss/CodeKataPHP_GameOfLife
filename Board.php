@@ -5,13 +5,21 @@ require_once("InvalidCellCoordinatesException.php");
 class Board{
 	private $width;
 	private $height;
+	private $cells;
 
 	public static function create($width, $height){
-		return new Board($width, $height);}
+		return new Board($width, $height, self::createCells($width, $height));}
 
-	public function __construct($width, $height){
+	public function __construct($width, $height, $cells){
 		$this->width = $width;
-		$this->height = $height;}
+		$this->height = $height;
+		$this->cells = $cells;}
+
+	private static function createCells($width, $height){
+		$cells = [];
+		for($i=0; $i < $width * $height; $i++){
+			$cells[] = FALSE;}
+		return $cells;}
 
 	public function getWidth(){
 		return $this->width;}
@@ -22,4 +30,10 @@ class Board{
 	public function isAlive($column, $row){
 		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){
 			throw new InvalidCellCoordinatesException($column, $row);}
-		return FALSE;}}
+		return $this->cells[$this->cellIndex($column, $row)];}
+
+	public function bringToLife($column, $row){
+		$this->cells[$this->cellIndex($column, $row)] = TRUE;}
+
+	private function cellIndex($column, $row){
+		return $row*$this->width + $column;}}
