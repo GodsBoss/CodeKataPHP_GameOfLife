@@ -24,18 +24,28 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->whenCellIsKilledAt(1, 4);
 		$this->thenCellIsDeadAt(1, 4);}
 
-	public function testCellDiesIfItHasNoLivingNeighbours(){
-		$this->givenBoardWithSize(4, 5);
-		$this->whenCellIsBroughtToLifeAt(2, 2);
+	/**
+	* @dataProvider boardSituationAndResult
+	*/
+	public function testWorldTick($cells, $isCellLivingAfterTick){
+		$this->given3x3BoardWithContents($cells);
 		$this->whenWorldTicks();
-		$this->thenCellIsDeadAt(2, 2);}
+		$this->thenCenterCellStateIs($isCellLivingAfterTick);}
 
-	public function testCellDiesIfItHasOnlyOneLivingNeighbour(){
-		$this->givenBoardWithSize(5, 5);
-		$this->whenCellIsBroughtToLifeAt(2, 2);
-		$this->whenCellIsBroughtToLifeAt(2, 3);
-		$this->whenWorldTicks();
-		$this->thenCellIsDeadAt(2, 2);}
+	public function boardSituationAndResult(){
+		return [
+			[
+				[
+					0,0,0,
+					0,1,0,
+					0,0,0],
+				FALSE],
+			[
+				[
+					0,0,0,
+					1,1,0,
+					0,0,0],
+				FALSE]];}
 
 	/**
 	* @dataProvider invalidCellCoordinates
@@ -87,8 +97,17 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	private function thenCellIsDeadAt($column, $row){
 		$this->assertFalse($this->board->isAlive($column, $row));}
 
+	private function thenCenterCellStateIs($state){
+		$this->assertEquals($state, $this->board->isAlive(1, 1));}
+
 	private function givenBoardWithSize($width, $height){
 		$this->board = Board::create($width, $height);}
+
+	private function given3x3BoardWithContents($cells){
+		$this->board = Board::create(3, 3);
+		for($index = 0; $index < count($cells); $index++){
+			if ($cells[$index] === 1){
+				$this->board->bringToLife($index % 3, floor($index % 3));}}}
 
 	private function whenTryingToCheckIfCellIsAliveAt($column, $row){
 		try{
