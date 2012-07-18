@@ -51,7 +51,7 @@ class Board{
 		for($column=0; $column<$this->width; $column++){
 			for($row=0; $row<$this->height; $row++){
 				$livingNeighbours = $this->livingNeighbours($column, $row);
-				if ($this->isAlive($column, $row) && ($livingNeighbours === 2 || $livingNeighbours === 3)){
+				if (($this->isAlive($column, $row) && $livingNeighbours === 2) || $livingNeighbours === 3){
 					$cells[$this->cellIndex($column, $row)] = TRUE;}}}
 		$this->cells = $cells;}
 

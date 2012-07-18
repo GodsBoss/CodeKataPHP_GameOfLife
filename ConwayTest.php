@@ -99,7 +99,13 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 					1,1,1,
 					1,1,1,
 					1,1,1],
-				FALSE]];}
+				FALSE],
+			[
+				[
+					1,0,0,
+					0,0,1,
+					0,1,0],
+				TRUE]];}
 
 	/**
 	* @dataProvider invalidCellCoordinates
