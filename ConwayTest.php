@@ -30,6 +30,13 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->whenWorldTicks();
 		$this->thenCellIsDeadAt(2, 2);}
 
+	public function testCellDiesIfItHasOnlyOneLivingNeighbour(){
+		$this->givenBoardWithSize(5, 5);
+		$this->whenCellIsBroughtToLifeAt(2, 2);
+		$this->whenCellIsBroughtToLifeAt(2, 3);
+		$this->whenWorldTicks();
+		$this->thenCellIsDeadAt(2, 2);}
+
 	/**
 	* @dataProvider invalidCellCoordinates
 	*/
