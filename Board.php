@@ -33,6 +33,8 @@ class Board{
 		return $this->cells[$this->cellIndex($column, $row)];}
 
 	public function bringToLife($column, $row){
+		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){
+			throw new InvalidCellCoordinatesException($column, $row);}
 		$this->cells[$this->cellIndex($column, $row)] = TRUE;}
 
 	private function cellIndex($column, $row){
