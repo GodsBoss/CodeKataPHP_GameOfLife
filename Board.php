@@ -36,7 +36,8 @@ class Board{
 		$this->cells[$this->cellIndex($column, $row)] = TRUE;}
 
 	public function kill($column, $row){
-		$this->throwIfOutsideTheBoard($column, $row);}
+		$this->throwIfOutsideTheBoard($column, $row);
+		$this->cells[$this->cellIndex($column, $row)] = FALSE;}
 
 	private function throwIfOutsideTheBoard($column, $row){
 		if ($column < 0 || $column >= $this->width || $row < 0 || $row >= $this->height){

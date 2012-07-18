@@ -18,6 +18,12 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->whenCellIsBroughtToLifeAt(2, 3);
 		$this->thenCellIsAliveAt(2, 3);}
 
+	public function testKillingCells(){
+		$this->givenBoardWithSize(5, 5);
+		$this->whenCellIsBroughtToLifeAt(1, 4);
+		$this->whenCellIsKilledAt(1, 4);
+		$this->thenCellIsDeadAt(1, 4);}
+
 	/**
 	* @dataProvider invalidCellCoordinates
 	*/
@@ -65,6 +71,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	private function thenCellIsAliveAt($column, $row){
 		$this->assertTrue($this->board->isAlive($column, $row));}
 
+	private function thenCellIsDeadAt($column, $row){
+		$this->assertFalse($this->board->isAlive($column, $row));}
+
 	private function givenBoardWithSize($width, $height){
 		$this->board = Board::create($width, $height);}
 
@@ -88,6 +97,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 
 	private function whenCellIsBroughtToLifeAt($column, $row){
 		$this->board->bringToLife($column, $row);}
+
+	private function whenCellIsKilledAt($column, $row){
+		$this->board->kill($column, $row);}
 
 	private $board;
 	private $exception;}
