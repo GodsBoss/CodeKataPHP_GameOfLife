@@ -12,28 +12,30 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	public function testTryingToAccessCellTooFarToTheLeft(){
 		$this->givenBoardWithSize(3, 2);
 		$this->whenTryingToCheckIfCellIsAliveAt(-2, 1);
-		$this->thenSignalInvalidCellCoordinates();}
+		$this->thenSignalInvalidCellCoordinates(-2, 1);}
 
 	public function testTryingToAccessCellTooFarToTheRight(){
 		$this->givenBoardWithSize(2, 2);
 		$this->whenTryingToCheckIfCellIsAliveAt(5, 0);
-		$this->thenSignalInvalidCellCoordinates();}
+		$this->thenSignalInvalidCellCoordinates(5, 0);}
 
 	public function testTryingToAccessCellAboveTheBoard(){
 		$this->givenBoardWithSize(2, 3);
 		$this->whenTryingToCheckIfCellIsAliveAt(1, -3);
-		$this->thenSignalInvalidCellCoordinates();}
+		$this->thenSignalInvalidCellCoordinates(1, -3);}
 
 	public function testTryingToAccessCellBelowTheBoard(){
 		$this->givenBoardWithSize(3, 3);
 		$this->whenTryingToCheckIfCellIsAliveAt(1, 6);
-		$this->thenSignalInvalidCellCoordinates();}
+		$this->thenSignalInvalidCellCoordinates(1, 6);}
 
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
 
-	private function thenSignalInvalidCellCoordinates(){
-		$this->assertInstanceOf(InvalidCellCoordinatesException, $this->exception);}
+	private function thenSignalInvalidCellCoordinates($column, $row){
+		$this->assertInstanceOf(InvalidCellCoordinatesException, $this->exception);
+		$this->assertTrue($column === $this->exception->getColumn());
+		$this->assertTrue($row === $this->exception->getRow());}
 
 	private function givenBoardWithSize($width, $height){
 		$this->board = Board::create($width, $height);}

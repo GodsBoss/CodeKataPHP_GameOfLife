@@ -19,5 +19,5 @@ class Board{
 	public function getHeight(){
 		return $this->height;}
 
-	public function isAlive(){
-		throw new InvalidCellCoordinatesException();}}
+	public function isAlive($column, $row){
+		throw new InvalidCellCoordinatesException($column, $row);}}
