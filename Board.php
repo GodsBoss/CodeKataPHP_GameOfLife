@@ -1,5 +1,7 @@
 <?php
 
+require_once("InvalidCellCoordinatesException.php");
+
 class Board{
 	private $width;
 	private $height;
@@ -15,4 +17,7 @@ class Board{
 		return $this->width;}
 
 	public function getHeight(){
-		return $this->height;}}
+		return $this->height;}
+
+	public function isAlive(){
+		throw new InvalidCellCoordinatesException();}}
