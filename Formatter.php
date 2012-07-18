@@ -12,6 +12,6 @@ class Formatter{
 		$result = "";
 		for($row = 0; $row < $this->board->getHeight(); $row++){
 			for($column = 0; $column < $this->board->getWidth(); $column++){
-				$result .= ".";}
+				$result .= $this->board->isAlive($column, $row) ? "O" : ".";}
 			$result .= "\n";}
 		return $result;}}
