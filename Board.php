@@ -47,4 +47,23 @@ class Board{
 		return $row*$this->width + $column;}
 
 	public function tick(){
-		$this->cells = self::createCells($this->width, $this->height);}}
+		$cells = self::createCells($this->width, $this->height);
+		for($column=0; $column<$this->width; $column++){
+			for($row=0; $row<$this->height; $row++){
+				$livingNeighbours = $this->livingNeighbours($column, $row);
+				if ($this->isAlive($column, $row) && $livingNeighbours === 2){
+					$cells[$this->cellIndex($column, $row)] = TRUE;}}}
+		$this->cells = $cells;}
+
+	private static $offsets = [-1, 0, 1];
+
+	private function livingNeighbours($column, $row){
+		$neighbours = 0;
+		foreach(self::$offsets as $columnOffset){
+			foreach(self::$offsets as $rowOffset){
+				if ($columnOffset !== 0 || $rowOffset !== 0){
+					$neighbourColumn = ($column+$columnOffset+$this->width) % $this->width;
+					$neighbourRow = ($row+$rowOffset+$this->height) % $this->height;
+					if ($this->isAlive($neighbourColumn, $neighbourRow)){
+						$neighbours++;}}}}
+		return $neighbours;}}

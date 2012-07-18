@@ -45,7 +45,19 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 					0,0,0,
 					1,1,0,
 					0,0,0],
-				FALSE]];}
+				FALSE],
+			[
+				[
+					0,0,0,
+					1,1,1,
+					0,0,0],
+				TRUE],
+			[
+				[
+					0,1,0,
+					0,1,0,
+					0,1,0],
+				TRUE]];}
 
 	/**
 	* @dataProvider invalidCellCoordinates
@@ -105,9 +117,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 
 	private function given3x3BoardWithContents($cells){
 		$this->board = Board::create(3, 3);
-		for($index = 0; $index < count($cells); $index++){
+		for($index = 0; $index < 9; $index++){
 			if ($cells[$index] === 1){
-				$this->board->bringToLife($index % 3, floor($index % 3));}}}
+				$this->board->bringToLife($index % 3, floor($index / 3));}}}
 
 	private function whenTryingToCheckIfCellIsAliveAt($column, $row){
 		try{
