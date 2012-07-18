@@ -34,6 +34,14 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->whenTryingToBringCellToLifeAt($column, $row);
 		$this->thenSignalInvalidCellCoordinates($column, $row);}
 
+	/**
+	* @dataProvider invalidCellCoordinates
+	*/
+	public function testTryingToKillCellsOutsideTheBoard($width, $height, $column, $row){
+		$this->givenBoardWithSize($width, $height);
+		$this->whenTryingToKillCellAt($column, $row);
+		$this->thenSignalInvalidCellCoordinates($column, $row);}
+
 	public function invalidCellCoordinates(){
 		return [
 			[3, 3, -2, 1],
@@ -69,6 +77,12 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	private function whenTryingToBringCellToLifeAt($column, $row){
 		try{
 			$this->board->bringToLife($column, $row);}
+		catch(Exception $exception){
+			$this->exception = $exception;}}
+
+	private function whenTryingToKillCellAt($column, $row){
+		try{
+			$this->board->kill($column, $row);}
 		catch(Exception $exception){
 			$this->exception = $exception;}}
 
