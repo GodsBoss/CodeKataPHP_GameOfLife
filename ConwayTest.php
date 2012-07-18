@@ -14,6 +14,11 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->whenTryingToCheckIfCellIsAliveAt(-2, 1);
 		$this->thenSignalInvalidCellCoordinates();}
 
+	public function testTryingToAccessCellTooFarToTheRight(){
+		$this->givenBoardWithSize(2, 2);
+		$this->whenTryingToCheckIfCellIsAliveAt(5, 0);
+		$this->thenSignalInvalidCellCoordinates();}
+
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
 
