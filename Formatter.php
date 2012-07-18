@@ -1,5 +1,7 @@
 <?php
 
+require_once("Board.php");
+
 class Formatter{
 	private $board;
 

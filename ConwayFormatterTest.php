@@ -1,5 +1,6 @@
 <?php
 
+require_once("Board.php");
 require_once("Formatter.php");
 
 class ConwayFormatterTest extends PHPUnit_Framework_TestCase{
@@ -19,7 +20,19 @@ class ConwayFormatterTest extends PHPUnit_Framework_TestCase{
 			$this->output);}
 
 	public function givenEmpty6x4Board(){
-		$this->board = ArrayBoard::create(6, 4);}
+		$this->board = $this->getMock('Board');
+		$this->board
+			->expects($this->any())
+			->method('getWidth')
+			->will($this->returnValue(6));
+		$this->board
+			->expects($this->any())
+			->method('getHeight')
+			->will($this->returnValue(4));
+		$this->board
+			->expects($this->any())
+			->method('isAlive')
+			->will($this->returnValue(FALSE));}
 
 	public function givenFormatter(){
 		$this->formatter = new Formatter($this->board);}
