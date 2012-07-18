@@ -35,24 +35,18 @@ class ConwayFormatterTest extends PHPUnit_Framework_TestCase{
 			".O...O\n";}
 
 	public function givenEmpty6x4Board(){
-		$this->board = $this->getMock('Board');
-		$this->mockSize(6, 4);
-		$this->board
-			->expects($this->any())
-			->method('isAlive')
-			->will($this->returnValue(FALSE));}
+		$this->mockBoard(6, 4, $this->returnValue(FALSE));}
 
 	public function givenBoardWithSomeLivingCells(){
-		$this->board = $this->getMock('Board');
-		$this->mockSize(count(self::$someLivingCells[0]), count(self::$someLivingCells));
-		$this->board
-			->expects($this->any())
-			->method('isAlive')
-			->will($this->returnCallback(
+		$this->mockBoard(
+			count(self::$someLivingCells[0]), 
+			count(self::$someLivingCells),
+			$this->returnCallback(
 				function($column, $row){
 					return self::$someLivingCells[$row][$column];}));}
 
-	private function mockSize($width, $height){
+	private function mockBoard($width, $height, $isAliveResult){
+		$this->board = $this->getMock('Board');
 		$this->board
 			->expects($this->any())
 			->method('getWidth')
@@ -60,7 +54,11 @@ class ConwayFormatterTest extends PHPUnit_Framework_TestCase{
 		$this->board
 			->expects($this->any())
 			->method('getHeight')
-			->will($this->returnValue($height));}
+			->will($this->returnValue($height));
+		$this->board
+			->expects($this->any())
+			->method('isAlive')
+			->will($isAliveResult);}
 
 	private static $someLivingCells = [
 		[0, 0, 1, 0, 0, 0],
