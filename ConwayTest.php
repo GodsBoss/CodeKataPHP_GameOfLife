@@ -142,6 +142,10 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->givenThousandBoardsWithDensity();
 		$this->thenMostBoardsHaveCellDistributionNearDensity();}
 
+	public function testCalculationOfTotalNumberOfCells(){
+		$this->givenBoardWithSize(20, 15);
+		$this->thenBoardHasACellCountOf(300);}
+
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
 
@@ -180,6 +184,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 
 	private static $densityDeviationThreshold = 0.05;
 	private static $maximumAllowedDeviations = 10;
+
+	private function thenBoardHasACellCountOf($count){
+		$this->assertEquals($count, $this->board->getNumberOfCells());}
 
 	private function givenBoardWithSize($width, $height){
 		$this->board = ArrayBoard::create($width, $height);}

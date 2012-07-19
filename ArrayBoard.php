@@ -37,6 +37,9 @@ class ArrayBoard implements Board{
 	public function getHeight(){
 		return $this->height;}
 
+	public function getNumberOfCells(){
+		return $this->width * $this->height;}
+
 	public function isAlive($column, $row){
 		$this->throwIfOutsideTheBoard($column, $row);
 		return $this->cells[$this->cellIndex($column, $row)];}

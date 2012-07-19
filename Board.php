@@ -4,6 +4,8 @@ interface Board{
 	public function getWidth();
 	public function getHeight();
 
+	public function getNumberOfCells();
+
 	public function isAlive($column, $row);
 
 	public function bringToLife($column, $row);
