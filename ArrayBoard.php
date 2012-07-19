@@ -12,6 +12,14 @@ class ArrayBoard implements Board{
 	public static function create($width, $height){
 		return new ArrayBoard($width, $height, self::createCells($width, $height));}
 
+	public static function createRandom($width, $height, $density){
+		$board = new ArrayBoard($width, $height, self::createCells($width, $height));
+		for($column=0; $column<$width; $column++){
+			for($row=0; $row<$height; $row++){
+				if (mt_rand(0, mt_getrandmax()-1) / mt_getrandmax() < $density){
+					$board->bringToLife($column, $row);}}}
+		return $board;}
+
 	public function __construct($width, $height, $cells){
 		$this->width = $width;
 		$this->height = $height;

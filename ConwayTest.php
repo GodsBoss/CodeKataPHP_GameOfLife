@@ -138,6 +138,10 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 			[3, 3, 1, -3],
 			[3, 3, 2, 6]];}
 
+	public function testCreatingRandomBoardWithLivingCellDensity(){
+		$this->givenThousandBoardsWithDensity();
+		$this->thenMostBoardsHaveCellDistributionNearDensity();}
+
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
 
@@ -160,6 +164,23 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	private function thenCenterCellStateIs($state){
 		$this->assertEquals($state, $this->board->isAlive(1, 1));}
 
+	private function thenMostBoardsHaveCellDistributionNearDensity(){
+		$deviations = 0;
+		foreach($this->randomBoards as $boardDensityInfo){
+			$board = $boardDensityInfo['board'];
+			$density = $boardDensityInfo['density'];
+			$livingCells = 0;
+			for($column=0; $column<$board->getWidth(); $column++){
+				for($row=0; $row<$board->getHeight(); $row++){
+					if ($board->isAlive($column, $row)){
+						$livingCells++;}}}
+			if (abs($livingCells / ($board->getWidth() * $board->getHeight()) - $density) > self::$densityDeviationThreshold){
+				$deviations++;}}
+		$this->assertLessThan(self::$maximumAllowedDeviations, $deviations);}
+
+	private static $densityDeviationThreshold = 0.05;
+	private static $maximumAllowedDeviations = 10;
+
 	private function givenBoardWithSize($width, $height){
 		$this->board = ArrayBoard::create($width, $height);}
 
@@ -168,6 +189,14 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		for($index = 0; $index < 9; $index++){
 			if ($cells[$index] === 1){
 				$this->board->bringToLife($index % 3, floor($index / 3));}}}
+
+	private function givenThousandBoardsWithDensity(){
+		$this->randomBoards = [];
+		for($i=0; $i<1000; $i++){
+			$density = $i / 1000;
+			$this->randomBoards[] = [
+				'density' => $density,
+				'board' => ArrayBoard::createRandom(40, 25, $density)];}}
 
 	private function whenTryingToCheckIfCellIsAliveAt($column, $row){
 		try{
@@ -197,4 +226,5 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->board->tick();}
 
 	private $board;
-	private $exception;}
+	private $exception;
+	private $randomBoards;}
