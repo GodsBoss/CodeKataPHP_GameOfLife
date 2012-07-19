@@ -183,12 +183,7 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		foreach($this->randomBoards as $boardDensityInfo){
 			$board = $boardDensityInfo['board'];
 			$density = $boardDensityInfo['density'];
-			$livingCells = 0;
-			for($column=0; $column<$board->getWidth(); $column++){
-				for($row=0; $row<$board->getHeight(); $row++){
-					if ($board->isAlive($column, $row)){
-						$livingCells++;}}}
-			if (abs($livingCells / ($board->getWidth() * $board->getHeight()) - $density) > self::$densityDeviationThreshold){
+			if (abs($board->getNumberOfLivingCells() / $board->getNumberOfCells() - $density) > self::$densityDeviationThreshold){
 				$deviations++;}}
 		$this->assertLessThan(self::$maximumAllowedDeviations, $deviations);}
 
