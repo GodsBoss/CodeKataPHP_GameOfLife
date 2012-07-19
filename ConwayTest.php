@@ -138,6 +138,14 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 			[3, 3, 1, -3],
 			[3, 3, 2, 6]];}
 
+	/*
+	* Beware!
+	* This test MAY fail because of an unlucky random situation. In that case,
+	* run again to ensure it was a real programming error (or not).
+	*
+	* This could be avoided by changing the design to inject a source of random
+	* numbers and mock that within the specs (here). Not done.
+	*/
 	public function testCreatingRandomBoardWithLivingCellDensity(){
 		$this->givenThousandBoardsWithDensity();
 		$this->thenMostBoardsHaveCellDistributionNearDensity();}
