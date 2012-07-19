@@ -40,6 +40,14 @@ class ArrayBoard implements Board{
 	public function getNumberOfCells(){
 		return $this->width * $this->height;}
 
+	public function getNumberOfDeadCells(){
+		$cells = 0;
+		for($column=0; $column<$this->width; $column++){
+			for($row=0; $row<$this->height; $row++){
+				if (!$this->isAlive($column, $row)){
+					$cells++;}}}
+		return $cells;}
+
 	public function isAlive($column, $row){
 		$this->throwIfOutsideTheBoard($column, $row);
 		return $this->cells[$this->cellIndex($column, $row)];}

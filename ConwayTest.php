@@ -146,6 +146,11 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 		$this->givenBoardWithSize(20, 15);
 		$this->thenBoardHasACellCountOf(300);}
 
+	public function testCalculationOfNumberOfDeadCells(){
+		$this->givenBoardWithSize(20, 15);
+		$this->givenCellsAreAlive(10);
+		$this->thenBoardHasADeadCellCountOf(290);}
+
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
 
@@ -188,6 +193,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	private function thenBoardHasACellCountOf($count){
 		$this->assertEquals($count, $this->board->getNumberOfCells());}
 
+	private function thenBoardHasADeadCellCountOf($count){
+		$this->assertEquals($count, $this->board->getNumberOfDeadCells());}
+
 	private function givenBoardWithSize($width, $height){
 		$this->board = ArrayBoard::create($width, $height);}
 
@@ -204,6 +212,10 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 			$this->randomBoards[] = [
 				'density' => $density,
 				'board' => ArrayBoard::createRandom(40, 25, $density)];}}
+
+	private function givenCellsAreAlive($amount){
+		for($i=0; $i<$amount; $i++){
+			$this->board->bringToLife($i % $this->board->getWidth(), floor($i / $this->board->getHeight()));}}
 
 	private function whenTryingToCheckIfCellIsAliveAt($column, $row){
 		try{

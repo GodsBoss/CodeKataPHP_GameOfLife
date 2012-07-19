@@ -5,6 +5,7 @@ interface Board{
 	public function getHeight();
 
 	public function getNumberOfCells();
+	public function getNumberOfDeadCells();
 
 	public function isAlive($column, $row);
 
