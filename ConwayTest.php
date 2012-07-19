@@ -145,9 +145,9 @@ class ConwayTest extends PHPUnit_Framework_TestCase{
 	public function testCalculationOfTotalNumberOfCells(){
 		$this->givenBoardWithSize(20, 15);
 		$this->givenCellsAreAlive(60);
-		$this->thenBoardHasACellCountOf(300);
+		$this->thenBoardHasACellCountOf(20 * 15);
 		$this->thenBoardHasALivingCellCountOf(60);
-		$this->thenBoardHasADeadCellCountOf(240);}
+		$this->thenBoardHasADeadCellCountOf(20 * 15 - 60);}
 
 	private function thenBoardHasSize($width, $height){
 		$this->assertEquals($width, $this->board->getWidth());}
